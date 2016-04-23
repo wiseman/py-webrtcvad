@@ -29,9 +29,9 @@ How to use it
 
   vad.set_mode(1)
 
- 3. Give it a short segment ("frame") of audio. The WebRTC VAD only
-    accepts 16-bit mono PCM audio, sampled at 8000, 16000, or 32000
-    Hz. A frame must be either 10, 20, or 30 ms in duration.
+3. Give it a short segment ("frame") of audio. The WebRTC VAD only
+   accepts 16-bit mono PCM audio, sampled at 8000, 16000, or 32000 Hz.
+   A frame must be either 10, 20, or 30 ms in duration.
 
   sample_rate = 16000
   frame_duration = 10  # ms
@@ -42,6 +42,7 @@ API
 ---
 
 class webrtc.Vad(*mode=None*)
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 VAD constructor.
 
