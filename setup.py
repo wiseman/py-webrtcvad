@@ -45,8 +45,9 @@ setup(
         # Pick your license as you wish (should match "license" above)
         'License :: OSI Approved :: MIT License',
 
-        # Specify the Python versions you support here. In particular, ensure
-        # that you indicate whether you support Python 2, Python 3 or both.
+        # Specify the Python versions you support here. In particular,
+        # ensure that you indicate whether you support Python 2,
+        # Python 3 or both.
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
@@ -60,8 +61,7 @@ setup(
     test_suite='nose.collector',
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
-    # for example:
-    # $ pip install -e .[dev,test]
+    # for example: $ pip install -e .[dev,test]
     extras_require={
         'dev': ['nose', 'check-manifest', 'unittest2', 'zest.releaser']
     })
