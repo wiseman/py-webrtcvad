@@ -45,12 +45,12 @@ static PyObject* vad_set_mode(PyObject *self, PyObject *args)
     return NULL;
   } else if (mode > 3) {
     PyErr_Format(PyExc_ValueError,
-                 "%d is an invalid mode, must be 0-3",
+                 "%ld is an invalid mode, must be 0-3",
                  mode);
     return NULL;
   }
   if (WebRtcVad_set_mode(PyCapsule_GetPointer(vadptr, "WebRtcVadPtr"), mode)) {
-    PyErr_Format(VadError, "Unable to set mode to %d", mode);
+    PyErr_Format(VadError, "Unable to set mode to %ld", mode);
     return NULL;
   }
   Py_RETURN_NONE;
