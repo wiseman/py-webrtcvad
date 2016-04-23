@@ -18,42 +18,23 @@ and free.
 How to use it
 -------------
 
-1. Create a `Vad` object.
+1. Create a `Vad` object.::
 
   import webrtcvad
   vad = webrtcvad.Vad()
 
 2. Optionally, set its aggressiveness mode, which is an integer
    between 0 and 3. 0 is the least aggressive about filtering out
-   non-speech, 3 is the most aggressive.
+   non-speech, 3 is the most aggressive. (You can also set the mode
+   when you create the VAD, e.g. ``vad = webrtcvad.Vad(3)``)::
 
   vad.set_mode(1)
 
 3. Give it a short segment ("frame") of audio. The WebRTC VAD only
    accepts 16-bit mono PCM audio, sampled at 8000, 16000, or 32000 Hz.
-   A frame must be either 10, 20, or 30 ms in duration.
+   A frame must be either 10, 20, or 30 ms in duration.::
 
   sample_rate = 16000
   frame_duration = 10  # ms
   frame = b'\x00\x00' * sample_rate * frame_duration / 1000
   print 'Contains speech: %s' % (vad.is_voiced(frame, sample_rate)
-
-API
----
-
-class webrtc.Vad(*mode=None*)
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-VAD constructor.
-
-*mode* is the aggressiveness mode.  Should be between 0 and 3.
-
-**set_mode**(*mode*)
-
-Sets the aggressiveness mode of a VAD.
-
-.. function:: spam(eggs)
-              ham(eggs)
-   :noindex:
-
-   Spam or ham the foo.
