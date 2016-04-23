@@ -51,3 +51,9 @@ VAD constructor.
 **set_mode**(*mode*)
 
 Sets the aggressiveness mode of a VAD.
+
+.. function:: spam(eggs)
+              ham(eggs)
+   :noindex:
+
+   Spam or ham the foo.
