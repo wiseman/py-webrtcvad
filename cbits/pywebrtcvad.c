@@ -6,7 +6,7 @@
 #endif
 
 static PyObject *VadError;
-const char webrtcvad_doc[] = "hello.";
+const char WebRtcVadDoc[] = "hello.";
 
 
 static void vad_free(PyObject* vadptr)
@@ -87,13 +87,20 @@ static PyObject* vad_process(PyObject *self, PyObject *args)
   long fs;
   Py_buffer audio_frame = {NULL, NULL};
   long frame_length;
+#ifdef PY3
   if (!PyArg_ParseTuple(args, "Oly*l", &vadptr, &fs, &audio_frame, &frame_length)) {
+#else
+  if (!PyArg_ParseTuple(args, "Ols*l", &vadptr, &fs, &audio_frame, &frame_length)) {
+#endif
     return NULL;
   }
   int result =  WebRtcVad_Process(PyCapsule_GetPointer(vadptr, "WebRtcVadPtr"),
                                   fs,
                                   audio_frame.buf,
                                   frame_length);
+#ifndef PY3
+  PyBuffer_Release(&audio_frame);
+#endif
   switch (result) {
   case 1:
     Py_RETURN_TRUE;
@@ -107,7 +114,7 @@ static PyObject* vad_process(PyObject *self, PyObject *args)
   return NULL;
 }
 
-static PyMethodDef VadMethods[] = {
+static PyMethodDef WebRtcVadMethods[] = {
     {"create",  vad_create, METH_NOARGS,
      "Create a vad."},
     {"init",  vad_init, METH_O,
@@ -121,26 +128,45 @@ static PyMethodDef VadMethods[] = {
     {NULL, NULL, 0, NULL}        /* Sentinel */
 };
 
-static struct PyModuleDef webrtcvad_module = {
+#ifdef PY3
+static struct PyModuleDef WebRtcVadModule = {
    PyModuleDef_HEAD_INIT,
    "_webrtcvad",   /* name of module */
-   webrtcvad_doc, /* module documentation, may be NULL */
+   WebRtcVadDoc, /* module documentation, may be NULL */
    -1,       /* size of per-interpreter state of the module,
                 or -1 if the module keeps state in global variables. */
-   VadMethods
+   WebRtcVadMethods
 };
+
+#define INITERROR return NULL
 
 PyMODINIT_FUNC
 PyInit__webrtcvad(void)
-{
-    PyObject *m;
 
-    m = PyModule_Create(&webrtcvad_module);
-    if (m == NULL)
-        return NULL;
+#else
+
+#define INITERROR return
+
+void
+init_webrtcvad(void)
+
+#endif
+
+{
+#ifdef PY3
+    PyObject *module = PyModule_Create(&WebRtcVadModule);
+#else
+    PyObject *module = Py_InitModule3("_webrtcvad", WebRtcVadMethods, WebRtcVadDoc);
+#endif
+    if (module == NULL) {
+      INITERROR;
+    }
 
     VadError = PyErr_NewException("webrtcvad.Error", NULL, NULL);
     Py_INCREF(VadError);
-    PyModule_AddObject(m, "Error", VadError);
-    return m;
+    PyModule_AddObject(module, "Error", VadError);
+
+#ifdef PY3
+    return module;
+#endif
 }
