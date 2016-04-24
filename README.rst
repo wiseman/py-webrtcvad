@@ -1,5 +1,5 @@
-.. image:: https://travis-ci.org/wiseman/py-webrtc-vad.svg?branch=master
-    :target: https://travis-ci.org/wiseman/py-webrtc-vad
+.. image:: https://travis-ci.org/wiseman/py-webrtcvad.svg?branch=master
+    :target: https://travis-ci.org/wiseman/py-webrtcvad
 
 py-webrtcvad
 ============
