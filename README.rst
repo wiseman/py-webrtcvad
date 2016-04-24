@@ -34,7 +34,8 @@ How to use it
    accepts 16-bit mono PCM audio, sampled at 8000, 16000, or 32000 Hz.
    A frame must be either 10, 20, or 30 ms in duration.::
 
+    # Run the VAD on 10 ms of silence. The result should be False.
     sample_rate = 16000
     frame_duration = 10  # ms
-    frame = b'\x00\x00' * sample_rate * frame_duration / 1000
+    frame = b'\x00\x00' * (sample_rate * frame_duration / 1000)
     print 'Contains speech: %s' % (vad.is_voiced(frame, sample_rate)
