@@ -25,7 +25,7 @@ module = Extension('_webrtcvad',
                    include_dirs=['cbits'])
 
 setup(
-    name='PackageName',
+    name='webrtcvad',
     version='1.0',
     description='This is a demo package',
     license='MIT',
