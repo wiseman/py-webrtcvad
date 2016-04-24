@@ -41,6 +41,6 @@ How to use it
     print 'Contains speech: %s' % (vad.is_voiced(frame, sample_rate)
 
 
- See `example.py <example.py>`_ for a more detailed example that will
- process a .wav file, find the voiced segments, and write each one as
- a separate .wav.
+See `example.py <example.py>`_ for a more detailed example that will
+process a .wav file, find the voiced segments, and write each one as a
+separate .wav.
