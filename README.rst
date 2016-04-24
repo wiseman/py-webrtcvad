@@ -39,3 +39,8 @@ How to use it
     frame_duration = 10  # ms
     frame = b'\x00\x00' * (sample_rate * frame_duration / 1000)
     print 'Contains speech: %s' % (vad.is_voiced(frame, sample_rate)
+
+
+ See `example.py <example.py>`_ for a more detailed example that will
+ process a .wav file, find the voiced segments, and write each one as
+ a separate .wav.
