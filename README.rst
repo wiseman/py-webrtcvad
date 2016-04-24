@@ -22,7 +22,7 @@ How to use it
 
    pip install webrtcvad
 
-1. Create a `Vad` object::
+1. Create a ``Vad`` object::
 
     import webrtcvad
     vad = webrtcvad.Vad()
