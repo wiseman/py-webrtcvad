@@ -2,6 +2,9 @@ import pkg_resources
 
 import _webrtcvad
 
+__author__ = "John Wiseman jjwiseman@gmail.com"
+__copyright__ = "Copyright (C) 2016 John Wiseman"
+__license__ = "MIT"
 __version__ = pkg_resources.get_distribution('webrtcvad').version
 
 
