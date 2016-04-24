@@ -34,7 +34,7 @@ setup(
     name='webrtcvad',
     author='John Wiseman',
     author_email='jjwiseman@gmail.com',
-    version='1.0.2',
+    version='1.0.3',
     description=('Python interface to the Google WebRTC Voice '
                  'Activity Detector (VAD)'),
     long_description=long_description,
