@@ -20,7 +20,7 @@ How to use it
 
 0. Install the webrtcvad module::
 
-   pip install webrtcvad
+    pip install webrtcvad
 
 1. Create a ``Vad`` object::
 
