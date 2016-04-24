@@ -24,10 +24,20 @@ module = Extension('_webrtcvad',
                    sources=c_sources,
                    include_dirs=['cbits'])
 
+here = os.path.abspath(os.path.dirname(__file__))
+
+# Get the long description from the README file
+with open(os.path.join(here, 'README.rst'), encoding='utf-8') as f:
+    long_description = f.read()
+
 setup(
     name='webrtcvad',
+    author='John Wiseman',
+    author_email='jjwiseman@gmail.com',
     version='1.0',
-    description='This is a demo package',
+    description=('Python interface to the Google WebRTC Voice '
+                 'Activity Detector (VAD)'),
+    long_description=long_description,
     license='MIT',
     classifiers=[
         # How mature is this project? Common values are
@@ -56,6 +66,7 @@ setup(
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
     ],
+    keywords='speechrecognition asr voiceactivitydetection vad webrtc',
     ext_modules=[module],
     py_modules=['webrtcvad'],
     test_suite='nose.collector',

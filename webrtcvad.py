@@ -1,4 +1,8 @@
+import pkg_resources
+
 import _webrtcvad
+
+__version__ = pkg_resources.get_distribution('webrtcvad').version
 
 
 class Vad(object):
