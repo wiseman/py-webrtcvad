@@ -31,7 +31,7 @@ class WebRtcVadTests(unittest.TestCase):
             webrtcvad.valid_rate_and_frame_length(8000, frame_len))
         sample = b'\x00' * frame_len * 2
         vad = webrtcvad.Vad()
-        self.assertFalse(vad.is_voiced(sample, 16000))
+        self.assertFalse(vad.is_speech(sample, 16000))
 
     def test_process_file(self):
         with open('test-audio.raw', 'rb') as f:
@@ -54,6 +54,6 @@ class WebRtcVadTests(unittest.TestCase):
             vad = webrtcvad.Vad(mode)
             result = ''
             for chunk in chunks:
-                voiced = vad.is_voiced(chunk, 8000)
+                voiced = vad.is_speech(chunk, 8000)
                 result += '1' if voiced else '0'
             self.assertEqual(expecteds[mode], result)

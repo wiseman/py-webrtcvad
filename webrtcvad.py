@@ -18,7 +18,7 @@ class Vad(object):
     def set_mode(self, mode):
         _webrtcvad.set_mode(self._vad, mode)
 
-    def is_voiced(self, buf, sample_rate, length=None):
+    def is_speech(self, buf, sample_rate, length=None):
         length = length or int(len(buf) / 2)
         if length * 2 > len(buf):
             raise IndexError(
