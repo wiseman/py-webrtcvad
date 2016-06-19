@@ -54,5 +54,7 @@ segments, and write each one as a separate .wav.
 How to run unit tests
 ---------------------
 
+To run unit tests::
+
     pip install -e ".[dev]"
     python setup.py test
