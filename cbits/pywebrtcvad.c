@@ -18,10 +18,11 @@ static void vad_free(PyObject* vadptr)
 static PyObject* vad_create(PyObject *self, PyObject *args)
 {
   VadInst *handle;
+  PyObject *vadptr;
   if (WebRtcVad_Create(&handle)) {
     return NULL;
   }
-  PyObject *vadptr = PyCapsule_New(handle, "WebRtcVadPtr", vad_free);
+  vadptr = PyCapsule_New(handle, "WebRtcVadPtr", vad_free);
   return Py_BuildValue("O", vadptr);
 }
 
@@ -87,6 +88,7 @@ static PyObject* vad_process(PyObject *self, PyObject *args)
   long fs;
   Py_buffer audio_frame = {NULL, NULL};
   long frame_length;
+  int result;
 #ifdef PY3
   if (!PyArg_ParseTuple(args, "Oly*l", &vadptr, &fs, &audio_frame, &frame_length)) {
 #else
@@ -94,7 +96,7 @@ static PyObject* vad_process(PyObject *self, PyObject *args)
 #endif
     return NULL;
   }
-  int result =  WebRtcVad_Process(PyCapsule_GetPointer(vadptr, "WebRtcVadPtr"),
+  result =  WebRtcVad_Process(PyCapsule_GetPointer(vadptr, "WebRtcVadPtr"),
                                   fs,
                                   audio_frame.buf,
                                   frame_length);

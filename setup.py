@@ -1,6 +1,7 @@
 from setuptools import setup, find_packages, Extension
 import glob
 import os.path
+import sys
 
 
 C_SRC_PREFIX = os.path.join('cbits', 'webrtc', 'common_audio')
@@ -19,8 +20,15 @@ c_sources = (
             'vad',
             '*.c')))
 
+define_macros = []
+
+if sys.platform.startswith('win'):
+    define_macros.extend([('_WIN32', None),])
+else:
+    define_macros.extend([('WEBRTC_POSIX', None),])
+
 module = Extension('_webrtcvad',
-                   define_macros=[('WEBRTC_POSIX', None)],
+                   define_macros=define_macros,
                    sources=c_sources,
                    include_dirs=['cbits'])
 
