@@ -26,11 +26,21 @@ def write_wave(path, audio, sample_rate):
         wf.writeframes(audio)
 
 
+class Frame(object):
+    def __init__(self, bytes, timestamp, duration):
+        self.bytes = bytes
+        self.timestamp = timestamp
+        self.duration = duration
+
+
 def frame_generator(frame_duration_ms, audio, sample_rate):
     n = int(sample_rate * (frame_duration_ms / 1000.0) * 2)
     offset = 0
+    timestamp = 0.0
+    duration = float(n) / sample_rate
     while offset + n < len(audio):
-        yield audio[offset:offset + n]
+        yield Frame(audio[offset:offset + n], timestamp, duration)
+        timestamp += duration
         offset += n
 
 
@@ -41,13 +51,14 @@ def vad_collector(sample_rate, frame_duration_ms,
     triggered = False
     voiced_frames = []
     for frame in frames:
-        sys.stdout.write('1' if vad.is_speech(frame, sample_rate) else '0')
+        sys.stdout.write(
+            '1' if vad.is_speech(frame.bytes, sample_rate) else '0')
         if not triggered:
             ring_buffer.append(frame)
             num_voiced = len([f for f in ring_buffer
-                              if vad.is_speech(f, sample_rate)])
+                              if vad.is_speech(f.bytes, sample_rate)])
             if num_voiced > 0.9 * ring_buffer.maxlen:
-                sys.stdout.write('+')
+                sys.stdout.write('+(%s)' % (ring_buffer[0].timestamp,))
                 triggered = True
                 voiced_frames.extend(ring_buffer)
                 ring_buffer.clear()
@@ -55,16 +66,18 @@ def vad_collector(sample_rate, frame_duration_ms,
             voiced_frames.append(frame)
             ring_buffer.append(frame)
             num_unvoiced = len([f for f in ring_buffer
-                                if not vad.is_speech(f, sample_rate)])
+                                if not vad.is_speech(f.bytes, sample_rate)])
             if num_unvoiced > 0.9 * ring_buffer.maxlen:
-                sys.stdout.write('-')
+                sys.stdout.write('-(%s)' % (frame.timestamp + frame.duration))
                 triggered = False
-                yield b''.join(voiced_frames)
+                yield b''.join([f.bytes for f in voiced_frames])
                 ring_buffer.clear()
                 voiced_frames = []
+    if triggered:
+        sys.stdout.write('-(%s)' % (frame.timestamp + frame.duration))
     sys.stdout.write('\n')
     if voiced_frames:
-        yield b''.join(voiced_frames)
+        yield b''.join([f.bytes for f in voiced_frames])
 
 
 def main(args):
