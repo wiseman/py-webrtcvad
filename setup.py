@@ -83,5 +83,6 @@ setup(
     # dependencies). You can install these using the following syntax,
     # for example: $ pip install -e .[dev,test]
     extras_require={
-        'dev': ['nose', 'check-manifest', 'unittest2', 'zest.releaser']
+        'dev': ['nose', 'check-manifest', 'unittest2', 'zest.releaser',
+                'psutil', 'memory_profiler']
     })
