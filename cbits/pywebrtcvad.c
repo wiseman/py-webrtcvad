@@ -100,9 +100,7 @@ static PyObject* vad_process(PyObject *self, PyObject *args)
                                   fs,
                                   audio_frame.buf,
                                   frame_length);
-#ifndef PY3
   PyBuffer_Release(&audio_frame);
-#endif
   switch (result) {
   case 1:
     Py_RETURN_TRUE;
