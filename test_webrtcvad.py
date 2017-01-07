@@ -10,11 +10,15 @@ class WebRtcVadTests(unittest.TestCase):
     def _load_wave(file_name):
         fp = wave.open(file_name, 'rb')
         try:
-            assert fp.getnchannels() == 1, '{0}: sound format is incorrect! Sound must be mono.'.format(file_name)
-            assert fp.getsampwidth() == 2, '{0}: sound format is incorrect! ' \
-                                           'Sample width of sound must be 2 bytes.'.format(file_name)
-            assert fp.getframerate() in (8000, 16000, 32000), '{0}: sound format is incorrect! ' \
-                                                              'Sampling frequency must be 8000 Hz, 16000 Hz or 32000 Hz.'
+            assert fp.getnchannels() == 1, (
+                '{0}: sound format is incorrect! Sound must be mono.'.format(
+                    file_name))
+            assert fp.getsampwidth() == 2, (
+                '{0}: sound format is incorrect! '
+                'Sample width of sound must be 2 bytes.').format(file_name)
+            assert fp.getframerate() in (8000, 16000, 32000), (
+                '{0}: sound format is incorrect! '
+                'Sampling frequency must be 8000 Hz, 16000 Hz or 32000 Hz.')
             sampling_frequency = fp.getframerate()
             sound_data = fp.readframes(fp.getnframes())
         finally:
@@ -87,11 +91,15 @@ class WebRtcVadTests(unittest.TestCase):
         for counter in range(nrepeats):
             find_voice = False
             for frame_ind in range(n):
-                if vad.is_speech(sound[(frame_ind * 2 * frame_len):((frame_ind + 1) * 2 * frame_len)], fs):
+                slice_start = (frame_ind * 2 * frame_len)
+                slice_end = ((frame_ind + 1) * 2 * frame_len)
+                if vad.is_speech(sound[slice_start:slice_end], fs):
                     find_voice = True
             self.assertTrue(find_voice)
         used_memory_after = memory_usage(-1)[0]
-        self.assertGreaterEqual(used_memory_before / 5.0, used_memory_after - used_memory_before)
+        self.assertGreaterEqual(
+            used_memory_before / 5.0,
+            used_memory_after - used_memory_before)
 
 
 if __name__ == '__main__':
