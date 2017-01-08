@@ -23,9 +23,9 @@ c_sources = (
 define_macros = []
 
 if sys.platform.startswith('win'):
-    define_macros.extend([('_WIN32', None),])
+    define_macros.extend([('_WIN32', None), ])
 else:
-    define_macros.extend([('WEBRTC_POSIX', None),])
+    define_macros.extend([('WEBRTC_POSIX', None), ])
 
 module = Extension('_webrtcvad',
                    define_macros=define_macros,
@@ -70,7 +70,6 @@ setup(
         'Programming Language :: Python :: 2',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
