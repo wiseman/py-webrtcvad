@@ -76,5 +76,3 @@ History
 
     Fixed Windows compilation errors. Thank you, `xiongyihui
     <https://github.com/xiongyihui>`_
-
-2.0.7
