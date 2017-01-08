@@ -75,4 +75,4 @@ History
 2.0.8
 
     Fixed Windows compilation errors. Thank you, `xiongyihui
-    <https://github.com/xiongyihui>`_
+    <https://github.com/xiongyihui>`_!
