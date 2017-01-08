@@ -58,3 +58,23 @@ To run unit tests::
 
     pip install -e ".[dev]"
     python setup.py test
+
+
+History
+-------
+
+2.0.10
+
+    Fixed memory leak. Thank you, `bond005
+    <https://github.com/bond005>`_!
+
+2.0.9
+
+    Improved example code. Added WebRTC license.
+
+2.0.8
+
+    Fixed Windows compilation errors. Thank you, `xiongyihui
+    <https://github.com/xiongyihui>`_
+
+2.0.7
