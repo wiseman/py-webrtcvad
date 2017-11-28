@@ -91,7 +91,7 @@ def vad_collector(sample_rate, frame_duration_ms,
     # We use a deque for our sliding window/ring buffer.
     ring_buffer = collections.deque(maxlen=num_padding_frames)
     # We have two states: TRIGGERED and NOTTRIGGERED. We start in the
-    # TRIGGERED state.
+    # NOTTRIGGERED state.
     triggered = False
 
     voiced_frames = []
