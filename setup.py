@@ -31,14 +31,17 @@ c_sources = (
             'checks.cc')))
 
 define_macros = []
+extra_compile_args = []
 
 if sys.platform.startswith('win'):
     define_macros.extend([('_WIN32', None), ('WEBRTC_WIN', None)])
 else:
     define_macros.extend([('WEBRTC_POSIX', None), ])
+    extra_compile_args.extend(['-std=c++11'])
 
 module = Extension('_webrtcvad',
                    define_macros=define_macros,
+                   extra_compile_args=extra_compile_args,
                    sources=c_sources,
                    include_dirs=['cbits'])
 
@@ -83,6 +86,8 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
     keywords='speechrecognition asr voiceactivitydetection vad webrtc',
     ext_modules=[module],
