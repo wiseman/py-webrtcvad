@@ -44,7 +44,7 @@ class WebRtcVadTests(unittest.TestCase):
         self.assertTrue(webrtcvad.valid_rate_and_frame_length(16000, 160))
         self.assertFalse(webrtcvad.valid_rate_and_frame_length(32000, 160))
         self.assertRaises(
-            ValueError,
+            (ValueError, OverflowError),
             webrtcvad.valid_rate_and_frame_length, 2 ** 35, 10)
 
     def test_process_zeroes(self):

@@ -5,6 +5,7 @@ import sys
 
 
 C_SRC_PREFIX = os.path.join('cbits', 'webrtc', 'common_audio')
+C_SRC_RTC_PREFIX = os.path.join('cbits', 'webrtc', 'rtc_base')
 
 c_sources = (
     [os.path.join(
@@ -17,13 +18,22 @@ c_sources = (
     + glob.glob(
         os.path.join(
             C_SRC_PREFIX,
+            'third_party',
+            '*.c'))
+    + glob.glob(
+        os.path.join(
+            C_SRC_PREFIX,
             'vad',
-            '*.c')))
+            '*.c'))
+    + glob.glob(
+        os.path.join(
+            C_SRC_RTC_PREFIX,
+            'checks.cc')))
 
 define_macros = []
 
 if sys.platform.startswith('win'):
-    define_macros.extend([('_WIN32', None), ])
+    define_macros.extend([('_WIN32', None), ('WEBRTC_WIN', None)])
 else:
     define_macros.extend([('WEBRTC_POSIX', None), ])
 

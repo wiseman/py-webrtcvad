@@ -8,14 +8,12 @@
  *  be found in the AUTHORS file in the root of the source tree.
  */
 
-
 // This file includes specific signal processing tools used in vad_core.c.
 
-#ifndef WEBRTC_COMMON_AUDIO_VAD_VAD_SP_H_
-#define WEBRTC_COMMON_AUDIO_VAD_VAD_SP_H_
+#ifndef COMMON_AUDIO_VAD_VAD_SP_H_
+#define COMMON_AUDIO_VAD_VAD_SP_H_
 
 #include "webrtc/common_audio/vad/vad_core.h"
-#include "webrtc/typedefs.h"
 
 // Downsamples the signal by a factor 2, eg. 32->16 or 16->8.
 //
@@ -33,7 +31,7 @@
 void WebRtcVad_Downsampling(const int16_t* signal_in,
                             int16_t* signal_out,
                             int32_t* filter_state,
-                            int in_length);
+                            size_t in_length);
 
 // Updates and returns the smoothed feature minimum. As minimum we use the
 // median of the five smallest feature values in a 100 frames long window.
@@ -53,4 +51,4 @@ int16_t WebRtcVad_FindMinimum(VadInstT* handle,
                               int16_t feature_value,
                               int channel);
 
-#endif  // WEBRTC_COMMON_AUDIO_VAD_VAD_SP_H_
+#endif  // COMMON_AUDIO_VAD_VAD_SP_H_

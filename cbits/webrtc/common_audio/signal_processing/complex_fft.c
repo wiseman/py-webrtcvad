@@ -17,6 +17,7 @@
 
 #include "webrtc/common_audio/signal_processing/complex_fft_tables.h"
 #include "webrtc/common_audio/signal_processing/include/signal_processing_library.h"
+#include "webrtc/rtc_base/system/arch.h"
 
 #define CFFTSFT 14
 #define CFFTRND 1
@@ -126,18 +127,16 @@ int WebRtcSpl_ComplexFFT(int16_t frfi[], int stages, int mode)
                          [wri]"r"(wri),
                          [cfftrnd]"r"(CFFTRND));
 #else
-                    tr32 = WEBRTC_SPL_MUL_16_16(wr, frfi[2 * j])
-                            - WEBRTC_SPL_MUL_16_16(wi, frfi[2 * j + 1]) + CFFTRND;
+                    tr32 = wr * frfi[2 * j] - wi * frfi[2 * j + 1] + CFFTRND;
 
-                    ti32 = WEBRTC_SPL_MUL_16_16(wr, frfi[2 * j + 1])
-                            + WEBRTC_SPL_MUL_16_16(wi, frfi[2 * j]) + CFFTRND;
+                    ti32 = wr * frfi[2 * j + 1] + wi * frfi[2 * j] + CFFTRND;
 #endif
 
                     tr32 >>= 15 - CFFTSFT;
                     ti32 >>= 15 - CFFTSFT;
 
-                    qr32 = ((int32_t)frfi[2 * i]) << CFFTSFT;
-                    qi32 = ((int32_t)frfi[2 * i + 1]) << CFFTSFT;
+                    qr32 = ((int32_t)frfi[2 * i]) * (1 << CFFTSFT);
+                    qi32 = ((int32_t)frfi[2 * i + 1]) * (1 << CFFTSFT);
 
                     frfi[2 * j] = (int16_t)(
                         (qr32 - tr32 + CFFTRND2) >> (1 + CFFTSFT));
@@ -159,7 +158,8 @@ int WebRtcSpl_ComplexFFT(int16_t frfi[], int stages, int mode)
 
 int WebRtcSpl_ComplexIFFT(int16_t frfi[], int stages, int mode)
 {
-    int i, j, l, k, istep, n, m, scale, shift;
+    size_t i, j, l, istep, n, m;
+    int k, scale, shift;
     int16_t wr, wi;
     int32_t tr32, ti32, qr32, qi32;
     int32_t tmp32, round2;
@@ -167,7 +167,7 @@ int WebRtcSpl_ComplexIFFT(int16_t frfi[], int stages, int mode)
     /* The 1024-value is a constant given from the size of kSinTable1024[],
      * and should not be changed depending on the input parameter 'stages'
      */
-    n = 1 << stages;
+    n = ((size_t)1) << stages;
     if (n > 1024)
         return -1;
 
@@ -183,7 +183,7 @@ int WebRtcSpl_ComplexIFFT(int16_t frfi[], int stages, int mode)
         shift = 0;
         round2 = 8192;
 
-        tmp32 = (int32_t)WebRtcSpl_MaxAbsValueW16(frfi, 2 * n);
+        tmp32 = WebRtcSpl_MaxAbsValueW16(frfi, 2 * n);
         if (tmp32 > 13573)
         {
             shift++;
@@ -270,17 +270,15 @@ int WebRtcSpl_ComplexIFFT(int16_t frfi[], int stages, int mode)
                     );
 #else
 
-                    tr32 = WEBRTC_SPL_MUL_16_16(wr, frfi[2 * j])
-                            - WEBRTC_SPL_MUL_16_16(wi, frfi[2 * j + 1]) + CIFFTRND;
+                    tr32 = wr * frfi[2 * j] - wi * frfi[2 * j + 1] + CIFFTRND;
 
-                    ti32 = WEBRTC_SPL_MUL_16_16(wr, frfi[2 * j + 1])
-                            + WEBRTC_SPL_MUL_16_16(wi, frfi[2 * j]) + CIFFTRND;
+                    ti32 = wr * frfi[2 * j + 1] + wi * frfi[2 * j] + CIFFTRND;
 #endif
                     tr32 >>= 15 - CIFFTSFT;
                     ti32 >>= 15 - CIFFTSFT;
 
-                    qr32 = ((int32_t)frfi[2 * i]) << CIFFTSFT;
-                    qi32 = ((int32_t)frfi[2 * i + 1]) << CIFFTSFT;
+                    qr32 = ((int32_t)frfi[2 * i]) * (1 << CIFFTSFT);
+                    qi32 = ((int32_t)frfi[2 * i + 1]) * (1 << CIFFTSFT);
 
                     frfi[2 * j] = (int16_t)(
                         (qr32 - tr32 + round2) >> (shift + CIFFTSFT));
