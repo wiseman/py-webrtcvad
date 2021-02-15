@@ -18,8 +18,7 @@ static void vad_free(PyObject* vadptr)
 static PyObject* vad_create(PyObject *self, PyObject *args)
 {
   VadInst *handle = WebRtcVad_Create();
-  PyObject *vadptr = PyCapsule_New(handle, "WebRtcVadPtr", vad_free);
-  return Py_BuildValue("O", vadptr);
+  return PyCapsule_New(handle, "WebRtcVadPtr", vad_free);
 }
 
 static PyObject* vad_init(PyObject *self, PyObject *vadptr)
