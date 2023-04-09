@@ -93,6 +93,9 @@ setup(
     ext_modules=[module],
     py_modules=['webrtcvad'],
     test_suite='nose.collector',
+    install_requires=[
+        'setuptools', # pkg_resources
+    ],
     # List additional groups of dependencies here (e.g. development
     # dependencies). You can install these using the following syntax,
     # for example: $ pip install -e .[dev,test]
